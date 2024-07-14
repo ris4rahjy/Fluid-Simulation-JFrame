@@ -1,73 +1,86 @@
-import java.awt.*;
-import java.util.Random;
 public class Particle {
-    int x, y, diameter;
-    int maxY;
-    double xVel, yVel;
+    double diameter;
+    Vector2D velocity;
+    Vector2D position;
 
-    private static final double GRAVITY = 9.8;
 
-    public Particle(int posX, int posY, double xVel, double yVel, int diameter){
-        this.x = posX;
-        this.y = posY;
 
-        //Intial Max Height is Initial Y value
-        this.maxY = posY;
+    public Particle(double posX, double posY, double xVel, double yVel, double diameter){
 
-        this.xVel = xVel;
-        this.yVel = yVel;
+        this.position = new Vector2D(posX, posY);
+        this.velocity = new Vector2D(0, 1);
+
         this.diameter = diameter;
 
     }
 
-    public void updatePosition(int PanelWidth, int PanelHeight){
 
-        //Update Y Position
-        if(y <= 0 || y + diameter >= PanelHeight){
-            yVel = yVel * -1;
-        }
+    public void updatePosition(int PanelWidth, int PanelHeight, double collisionDamping, double deltaTime, double GRAVITY){
 
-        //Update X Position
-        if(x <= 0 || x + diameter >= PanelWidth){
-            xVel = xVel * -1;
-        }
+        //Create Velocity Vector
+        Vector2D propulsionEffect = new Vector2D(0, 1);
+        propulsionEffect.multiply(GRAVITY * deltaTime);
 
-        y += yVel;
-        x += xVel;
+        velocity.add(propulsionEffect); //This is yVel
+
+        //In order to not change Velocity, create new temp Velocity
+        Vector2D velCalculation = new Vector2D(velocity.getX() * deltaTime, velocity.getY() * deltaTime);
+
+        position.add(velCalculation);
+
+
+
+        //Resolve bounding errors
+        resolveCollisions(PanelWidth, PanelHeight, collisionDamping);
+
+        //Debug velocity & position stamps
+        System.out.println("Delta Time = "  + deltaTime + " X = " + (int) position.getX() + " Y = " +  (int) position.getY() +  " Velocity Calculated = " + velocity.getY());
 
     }
 
+    private void resolveCollisions(int PanelWidth, int PanelHeight, double collisionDamping) {
+
+        //Resolve Height Bound Issues
+        if(position.getY() >= PanelHeight - diameter || position.getY() < 0){
+            if(position.getY() >= PanelHeight - diameter){
+                position.setY(PanelHeight - diameter);
+            }else if(position.getY() < 0){
+                position.setY(0);
+            }
+            double temp = velocity.getY();
+            velocity.setY(temp * -1 * collisionDamping);
+        }
+
+        //Resolve Width Bound Issues
+        if(position.getX() >= PanelWidth - diameter || position.getX() < 0){
+            if(position.getX() >= PanelWidth - diameter){
+                position.setX(PanelWidth - diameter);
+            }else if(position.getX() < 0){
+                position.setX(0);
+            }
+            velocity.setX(velocity.getX() * -1 * collisionDamping);
+        }
+
+    }
+
+    public double SmoothingKernel(float diameter, double dst){
+        double value = Math.max(0.0, ((diameter / 2) * (diameter / 2) - (dst * dst)));
+        double newVal = (value * value * value);
+        return newVal;
+    }
+
+
+    /*
     public boolean intersects(Particle other){
         // Calculate distance between centers
-        int dx = (x + (diameter / 2)) - (other.x + other.diameter / 2);
-        int dy = (y + (diameter / 2)) - (other.y + other.diameter / 2);
+        double dx = (x + (diameter / 2)) - (other.x + other.diameter / 2);
+        double dy = (y + (diameter / 2)) - (other.y + other.diameter / 2);
         double distance = Math.sqrt(dx * dx + dy * dy);
 
         //Check if Distance is less than sum of radi
         return distance < (diameter + other.diameter) / 2;
     }
 
-    public void reverseVelocity(){
-        xVel = -xVel;
-        yVel = -yVel;
-    }
-
-    public void applyGravity(){
-        //Apply Gravity to Y Velocity
-        yVel += GRAVITY;
-    }
-
-    public boolean atBottom(int PanelHeight){
-        if(y < 0 || y >= PanelHeight-diameter){
-            System.out.println("At Bottom");
-            return true;
-        }
-        System.out.println("Not at Bottom");
-        return false;
-    }
-
-
-
-
+     */
 
 }
