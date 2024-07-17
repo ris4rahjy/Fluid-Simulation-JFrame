@@ -1,7 +1,6 @@
 public class Vector2D {
     private double x, y;
 
-    public static final Vector2D down = new Vector2D(0, 1);
     public Vector2D(double x, double y){
         this.x = x;
         this.y = y;
@@ -41,9 +40,6 @@ public class Vector2D {
         this.y *= scalar;
         return this;
     }
-
-
-
 
 
 
