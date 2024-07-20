@@ -19,8 +19,6 @@ public class MyFrame extends JFrame implements MouseListener, MouseMotionListene
         this.setLocationRelativeTo(null);
         this.setVisible(true);
 
-        ImageIcon img = new ImageIcon("src/ruby.png");
-        this.setIconImage(img.getImage());
 
         addKeyListener(new KeyAdapter() {
             @Override
