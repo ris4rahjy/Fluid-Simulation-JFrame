@@ -44,7 +44,7 @@ public class MyPanel extends JPanel implements ActionListener, ComponentListener
     private int PANEL_HEIGHT = 1000;
 
 
-    final double CircleDiameter = 20;
+    final double CircleDiameter = 10;
 
 
     private final Particle[] listOfParticles;
