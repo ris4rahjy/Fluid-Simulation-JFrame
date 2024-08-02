@@ -1,3 +1,11 @@
+/**
+ * Particle manipulation. Particle object stores position, velocity, and size.
+ * Particle is adjusted according to specific parameters, such as gravity, current velocity, and pressure.
+ * Movement of particles is calculated here as well.
+ *
+ * @author R. Yousuf
+ */
+
 import java.awt.*;
 
 public class Particle {
@@ -23,7 +31,14 @@ public class Particle {
     }
 
 
-
+    /**
+     * Clculate and apply pressure force upon the current particle.
+     * @param listOfParticles list of all particles.
+     * @param smoothingRadius radius of effect for a given particle.
+     * @param pressureMultiplier up/down scale particle force.
+     * @param targetDensity Ideal density to be reached by all particles.
+     * @return new pressure force.
+     */
     private Vector2D calculatePressure(Particle[] listOfParticles, double smoothingRadius, double pressureMultiplier, double targetDensity) {
         Vector2D pressureForce = new Vector2D(0,0);
 
@@ -59,22 +74,47 @@ public class Particle {
         return pressureForce;
     }
 
+    /**
+     * Density of two particles, when acting upon one another.
+     * @param densityOne
+     * @param densityTwo
+     * @param pressureMultiplier
+     * @param targetDensity
+     * @return New pressure of two particles
+     */
     private double CalculateSharedPressure(double densityOne, double densityTwo, double pressureMultiplier, double targetDensity) {
         double pressureOne = convertDensityToPressure(densityOne, pressureMultiplier, targetDensity);
         double pressureTwo = convertDensityToPressure(densityTwo, pressureMultiplier, targetDensity);
         return (pressureOne + pressureTwo) / 2;
     }
 
+    /**
+     * Convert the current density, to a pressure force to act upon a particle.
+     * @param d current density
+     * @param pressureMultiplier up/down scale a particles pressure.
+     * @param targetDensity Ideal particle density to be reached.
+     * @return
+     */
     private double convertDensityToPressure(double d, double pressureMultiplier, double targetDensity) {
         double densityError = d - targetDensity;
         return densityError * pressureMultiplier;
     }
 
+    /**
+     * Calculate random normal direction to send particle off, if particle is at the exact same particle as another.
+     * @return A random normal velocity.
+     */
     private static Vector2D getRandomDir() {
         double angle = Math.random() * 2 * Math.PI;
         return new Vector2D(Math.cos(angle), Math.sin(angle));
     }
 
+    /**
+     * Calculate density of particle based on all other particles nearby, up to the smoothing radius of the current particle.
+     * @param listOfParticles
+     * @param smoothingRadius
+     * @param d list of all densities to be stored
+     */
     private void calculateDensity(Particle[] listOfParticles, double smoothingRadius, double[] d) {
         density = 0;
 
@@ -90,6 +130,13 @@ public class Particle {
         d[index] = density;
     }
 
+    /**
+     * Apply new velocity based on propulsion effect of the force acted upon a particle.
+     *
+     * @param GRAVITY
+     * @param deltaTime
+     * @return New Velocity
+     */
     private Vector2D calculateVelocity(double GRAVITY, double deltaTime) {
         Vector2D propulsionEffect = new Vector2D(0, 1);
         propulsionEffect.multiply(GRAVITY * deltaTime);
@@ -102,6 +149,13 @@ public class Particle {
     }
 
 
+    /**
+     * Fix out of bounds positioning of particles to clamp back into screen, reversing current velocity.
+     *
+     * @param PanelWidth
+     * @param PanelHeight
+     * @param collisionDamping
+     */
     private void resolveCollisions(int PanelWidth, int PanelHeight, double collisionDamping) {
 
         //Resolve Height Bound Issues
@@ -131,7 +185,8 @@ public class Particle {
 
     }
 
-    //TO DO: Fix Density Functions
+
+
     public double SmoothingKernel(double radius, double dst){
         if(dst >= radius){return 0;}
         double volume = (Math.PI * Math.pow(radius, 4)) / 6;
@@ -145,6 +200,12 @@ public class Particle {
     }
 
 
+    /**
+     * Apply effects of gravity onto particle based on delta time.
+     * @param listOfParticles
+     * @param GRAVITY
+     * @param deltaTime
+     */
     public void addGravity(Particle[] listOfParticles, double GRAVITY, double deltaTime) {
         Vector2D velCalculation = calculateVelocity(GRAVITY, deltaTime);
         //velocity.add(velCalculation);
@@ -156,10 +217,24 @@ public class Particle {
         predictedPosition = new Vector2D(getCenterX() + (temp.getX() + diameter / 2), getCenterY() + (temp.getY() + diameter / 2));
     }
 
+    /**
+     * Calculate density of all particles, and store it in an array.
+     * @param listOfParticles
+     * @param smoothingRadius
+     * @param d
+     */
     public void addDensity(Particle[] listOfParticles, double smoothingRadius, double[] d) {
         calculateDensity(listOfParticles, smoothingRadius, d);
     }
 
+    /**
+     * Apply the pressure force of the current particle onto said particle.
+     * @param listOfParticles
+     * @param smoothingRadius
+     * @param deltaTime
+     * @param pressureMultiplier
+     * @param targetDensity Ideal density to be reached.
+     */
     public void applyPressureForce(Particle[] listOfParticles, double smoothingRadius, double deltaTime, double pressureMultiplier, double targetDensity) {
         Vector2D pressureForce = calculatePressure(listOfParticles, smoothingRadius, pressureMultiplier, targetDensity);
         Vector2D pressureAcceleration = new Vector2D((pressureForce.getX() / density), (pressureForce.getY() / density));
@@ -172,6 +247,16 @@ public class Particle {
 
     }
 
+    /**
+     * Apply new velocity and interaction force to current particle.
+     *
+     * @param PANEL_WIDTH Screen Width
+     * @param PANEL_HEIGHT Screen Height
+     * @param listofParticles List of all particles
+     * @param collisionDamping Collision dampening.
+     * @param interactionForce The current force applied by the mouse cursor on the particle.
+     * @param button True if repulsion, False if attraction.
+     */
     public void update(int PANEL_WIDTH, int PANEL_HEIGHT,Particle[] listofParticles , double collisionDamping, Vector2D interactionForce, boolean button) {
         position.add(velocity);
 
@@ -209,19 +294,41 @@ public class Particle {
 
 
 
+    /**
+     * @return Return the actual center X-position of a particle
+     */
     public double getCenterX(){
         return position.getX() + diameter / 2;
     }
+
+    /**
+     * @return Return the actual center Y-position of a particle
+     */
     public double getCenterY(){
         return position.getY() + diameter / 2;
     }
 
+    /**
+     * Calculate the distance between two particles.
+     *
+     * @param p1 Particle A
+     * @param p2 Particle B
+     * @return Distance
+     */
     private double calculateDistance(Particle p1, Particle p2){
         double dx = p1.getCenterX() - p2.getCenterX();
         double dy = p1.getCenterY() - p2.getCenterY();
         return Math.sqrt(dx * dx + dy * dy);
     }
 
+    /**
+     * Mouse either attracts or repels particles.
+     *
+     * @param mousePos Position of Mouse
+     * @param radius Current Radius of effect
+     * @param strength Current Strength of effect
+     * @return Velocity of Interaction Force
+     */
     public Vector2D applyInteraction(Point mousePos, double radius, int strength) {
         Vector2D interactionForce = new Vector2D(0, 0);
         Vector2D offset = new Vector2D((mousePos.getX() - getCenterX()),(mousePos.getY() - getCenterY()));

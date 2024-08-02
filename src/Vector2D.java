@@ -1,3 +1,8 @@
+/**
+ * Vector Class file. Stores position & vector manipulation arithmetic.
+ *
+ * @author R. Yousuf
+ */
 public class Vector2D {
     private double x, y;
 

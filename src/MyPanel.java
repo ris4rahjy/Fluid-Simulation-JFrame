@@ -1,3 +1,9 @@
+/**
+ * Particle simulation Java Panel. Contains base parameters for runtime, as well as what is presented on screen.
+ *
+ * @author R. Yousuf
+ */
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
@@ -17,13 +23,13 @@ public class MyPanel extends JPanel implements ActionListener, ComponentListener
 
 
     private final int DesiredFrameRate = 0; //33 = 30fps, 16 = 60fps, 8 = 120fps , 0 = 180fps
-    private final int numParticle = 3000;
-    private double smoothingRadius = 3; //0.3 //3
+    private final int numParticle = 1000;
+    private double smoothingRadius = 1; //0.3 //3
 
     private int mouseRadius = 10;
     private int mouseStrength = 5;
-    double pressureMultiplier = 7;//4.5;
-    double targetDensity = 1; //1.5
+    double pressureMultiplier = 4.5;//4.5;
+    double targetDensity = 1.5; //1.5
 
     final double BOUNCE_FACTOR = 0.3;
     double GRAVITY = 0; // 9.8
@@ -62,6 +68,9 @@ public class MyPanel extends JPanel implements ActionListener, ComponentListener
     private boolean drawGradient = false;
 
 
+    /**
+     * Initialize runtime panel parameters. Create initial list of particles.
+     */
     public MyPanel(){
         this.setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
         this.setBackground(Color.darkGray);
@@ -108,6 +117,10 @@ public class MyPanel extends JPanel implements ActionListener, ComponentListener
 
     }
 
+    /**
+     * Draw particles to screen.
+     * @param g  the <code>Graphics</code> context in which to paint
+     */
     public void paint(Graphics g){
 
         super.paint(g);
@@ -172,7 +185,7 @@ public class MyPanel extends JPanel implements ActionListener, ComponentListener
         if(drawCircle){
             for(Particle particle: listOfParticles){
                 //g2d.setColor(Color.CYAN);
-                if(maxVelocity == 0){Color c = new Color(0, 0, 255); g2d.setColor(c);}
+                if(maxVelocity < 1){Color c = new Color(0, 0, 255); g2d.setColor(c);}
                 else{g2d.setColor(getColor(particle.velocity.magnitude()));}
 
                 g2d.fillOval((int) particle.position.getX(), (int) particle.position.getY(), (int) particle.diameter, (int) particle.diameter);
@@ -189,6 +202,10 @@ public class MyPanel extends JPanel implements ActionListener, ComponentListener
 
     }
 
+    /**
+     * Perform particle movement and calculations. Runs every frame.
+     * @param e the event to be processed
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if(isPaused){return;}
@@ -355,6 +372,9 @@ public class MyPanel extends JPanel implements ActionListener, ComponentListener
         }
     }
 
+    /**
+     * Based on specific keys pressed, adjust runtime parameters on-the-fly.
+     */
     public void adjustStrength(int a) {
         mouseStrength += a;
         if(mouseStrength <= 0){mouseStrength = 0;}

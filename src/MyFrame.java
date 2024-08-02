@@ -1,3 +1,8 @@
+/**
+ * Particle simulation Java Frame. Creates Java panel, and parses keyboard inputs for specific changes to fluid parameters.
+ *
+ * @author R. Yousuf
+ */
 import java.awt.*;
 import java.awt.event.*;
 import java.security.Key;
