@@ -17,7 +17,7 @@ The particles therefore propel and attract eachother towards its ideal position.
 To activate gravity, the 'G' key must be pressed.  
 https://github.com/user-attachments/assets/c99beb7c-e239-4f44-a041-23c419286a04
 
-The mouse cursor can be used to create a zone of attraction/repulsion, based on whether a right click or left click was performed. 
+The mouse cursor can be used to create a zone of attraction/repulsion, based on whether a right click or left click was performed.  
 https://github.com/user-attachments/assets/79b8f100-4bb7-4ae8-acab-4d0e08ad4bd5
 
 Particle observation can be changed to and from circles, as well as to and from gradients.  
