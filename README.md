@@ -15,7 +15,7 @@ Particles operate identical to the real world. With no pressence of gravity, par
 The particles therefore propel and attract eachother towards its ideal position.  
 
 To activate gravity, the 'G' key must be pressed.  
-https://github.com/user-attachments/assets/c99beb7c-e239-4f44-a041-23c419286a04
+https://github.com/user-attachments/assets/0bee8aac-a40e-4c62-a1a5-4fc1df5f1bd5
 
 The mouse cursor can be used to create a zone of attraction/repulsion, based on whether a right click or left click was performed.  
 
