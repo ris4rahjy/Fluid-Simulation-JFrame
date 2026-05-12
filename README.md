@@ -1,0 +1,26 @@
+# Fluid Simulation using JFrame
+
+## The following is a particle-based simulation which seeks to mimic fluid behavior. 
+
+### A few features are listed below.
+
+Now with a Resizable window!
+
+Press P to pause simulation.
+
+Particle velocity determines the color of the particle; the faster particles are more red then the slower ones.   
+This gradient occurs until all particles are moving at or around the same velocity.  
+
+Particles operate identical to the real world. With no pressence of gravity, particles gravitate towards less dense regions.  
+The particles therefore propel and attract eachother towards its ideal position.  
+
+To activate gravity, the 'G' key must be pressed.  
+https://github.com/user-attachments/assets/0bee8aac-a40e-4c62-a1a5-4fc1df5f1bd5
+
+The mouse cursor can be used to create a zone of attraction/repulsion, based on whether a right click or left click was performed.  
+
+
+Particle observation can be changed to and from circles, as well as to and from gradients.  
+To add/remove the circles, press 'I'.  
+To add/remove gradients, press 'O'.    
+ 
