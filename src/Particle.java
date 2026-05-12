@@ -5,7 +5,6 @@
  *
  * @author R. Yousuf
  */
-
 import java.awt.*;
 
 public class Particle {

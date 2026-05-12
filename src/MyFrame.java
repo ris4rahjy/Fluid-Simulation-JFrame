@@ -112,6 +112,5 @@ public class MyFrame extends JFrame implements MouseListener, MouseMotionListene
 
     public boolean whichButton(){return leftMouse;}
 
-
-
 }
+//

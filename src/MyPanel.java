@@ -23,7 +23,7 @@ public class MyPanel extends JPanel implements ActionListener, ComponentListener
 
 
     private final int DesiredFrameRate = 0; //33 = 30fps, 16 = 60fps, 8 = 120fps , 0 = 180fps
-    private final int numParticle = 1000;
+    private final int numParticle = 2000;
     private double smoothingRadius = 1; //0.3 //3
 
     private int mouseRadius = 10;
@@ -32,7 +32,7 @@ public class MyPanel extends JPanel implements ActionListener, ComponentListener
     double targetDensity = 1.5; //1.5
 
     final double BOUNCE_FACTOR = 0.3;
-    double GRAVITY = 0; // 9.8
+    double GRAVITY = 9.8; // 9.8
 
     private static final int sim_speed = 1;
 
@@ -336,7 +336,6 @@ public class MyPanel extends JPanel implements ActionListener, ComponentListener
     public void componentHidden(ComponentEvent e) {
 
     }
-
 
     public void togglePause() {
         isPaused = !isPaused;
