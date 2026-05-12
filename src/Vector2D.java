@@ -45,5 +45,4 @@ public class Vector2D {
         this.y *= scalar;
         return this;
     }
-
 }

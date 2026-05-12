@@ -6,7 +6,6 @@
  * @author R. Yousuf
  */
 import java.awt.*;
-
 public class Particle {
     final double mass = 1;
     double diameter;

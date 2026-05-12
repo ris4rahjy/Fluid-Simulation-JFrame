@@ -80,7 +80,6 @@ public class MyFrame extends JFrame implements MouseListener, MouseMotionListene
     public void mouseClicked(MouseEvent e) {
         leftMouse = SwingUtilities.isLeftMouseButton(e); //True = Left Mouse, False = Right Mouse
     }
-
     @Override
     public void mousePressed(MouseEvent e) {
         isMouseHeld = true;

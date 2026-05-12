@@ -326,7 +326,6 @@ public class MyPanel extends JPanel implements ActionListener, ComponentListener
     public void componentMoved(ComponentEvent e) {
 
     }
-
     @Override
     public void componentShown(ComponentEvent e) {
 
